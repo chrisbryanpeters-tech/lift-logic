@@ -1,4 +1,4 @@
-const CACHE_NAME = "lift-logic-v11";
+const CACHE_NAME = "lift-logic-v12";
 const ASSETS = [
   "./",
   "./index.html",

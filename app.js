@@ -489,12 +489,10 @@ function renderHistory() {
       ${exercises ? `<ul>${exercises}</ul>` : ""}
       ${workout.notes ? `<p>${escapeHtml(workout.notes)}</p>` : ""}
       <div class="history-actions">
-        <button class="text-button view-workout" type="button">View</button>
-        <button class="text-button delete-workout" type="button">Delete</button>
+        <button class="text-button view-workout" type="button" data-workout-id="${escapeHtml(workout.id)}">View</button>
+        <button class="text-button delete-workout" type="button" data-workout-id="${escapeHtml(workout.id)}">Delete</button>
       </div>
     `;
-    $(".view-workout", item).addEventListener("click", () => openWorkoutDetail(workout.id));
-    $(".delete-workout", item).addEventListener("click", () => deleteWorkout(workout.id));
     list.append(item);
   });
 }
@@ -538,6 +536,18 @@ function renderWorkoutExerciseDetail(exercise) {
 function closeWorkoutDetail() {
   workoutDetailDrawer.classList.remove("open");
   workoutDetailDrawer.setAttribute("aria-hidden", "true");
+}
+
+function handleHistoryAction(event) {
+  const viewButton = event.target.closest(".view-workout");
+  const deleteButton = event.target.closest(".delete-workout");
+  if (!viewButton && !deleteButton) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  if (viewButton) openWorkoutDetail(viewButton.dataset.workoutId);
+  if (deleteButton) deleteWorkout(deleteButton.dataset.workoutId);
 }
 
 function escapeHtml(value) {
@@ -620,8 +630,17 @@ $("#workoutNotes").addEventListener("input", saveDraft);
 $("#historyToggle").addEventListener("click", openHistory);
 $("#closeHistory").addEventListener("click", closeHistory);
 $("#closeWorkoutDetail").addEventListener("click", closeWorkoutDetail);
-$("#cancelConfirm").addEventListener("click", closeConfirm);
-$("#confirmDelete").addEventListener("click", runConfirmAction);
+$("#historyList").addEventListener("click", handleHistoryAction);
+$("#cancelConfirm").addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  closeConfirm();
+});
+$("#confirmDelete").addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  runConfirmAction();
+});
 historyDrawer.addEventListener("click", (event) => {
   if (event.target === historyDrawer) closeHistory();
 });
