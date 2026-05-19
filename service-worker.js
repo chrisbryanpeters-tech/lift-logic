@@ -1,22 +1,26 @@
-{
-  "name": "Lift Logic Workout Tracker",
-  "short_name": "Lift Logic",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#121515",
-  "theme_color": "#121515",
-  "icons": [
-    {
-      "src": "assets/lift-logic-logo.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/lift-logic-logo.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
-}
+const CACHE_NAME = "lift-logic-v9";
+const ASSETS = [
+  "./",
+  "./index.html",
+  "./styles.css",
+  "./app.js",
+  "./manifest.webmanifest",
+  "./assets/lift-logic-logo.png",
+  "./icons/icon-192.svg",
+  "./icons/icon-512.svg",
+];
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+  );
+});
+
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
+  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
+});
