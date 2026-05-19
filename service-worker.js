@@ -1,11 +1,10 @@
-const CACHE_NAME = "lift-logic-v9";
+const CACHE_NAME = "lift-logic-v10";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./manifest.webmanifest",
-  "./assets/lift-logic-logo.png",
   "./icons/icon-192.svg",
   "./icons/icon-512.svg",
 ];

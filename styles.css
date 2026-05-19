@@ -66,13 +66,21 @@ button {
   min-width: 0;
 }
 
-.brand-logo {
+.brand-mark {
   width: 64px;
   height: 64px;
   flex: 0 0 64px;
   border-radius: 8px;
-  object-fit: cover;
-  object-position: center;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(198, 207, 218, 0.95) 46%, transparent 47%),
+    linear-gradient(135deg, transparent 34%, #008cff 35%, #005dc4 100%);
+  color: #f7fbff;
+  font-size: 1.15rem;
+  font-weight: 1000;
+  letter-spacing: 0;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
   box-shadow: 0 0 26px rgba(0, 123, 255, 0.28);
 }
 

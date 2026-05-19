@@ -7,15 +7,15 @@
   "theme_color": "#121515",
   "icons": [
     {
-      "src": "assets/lift-logic-logo.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/lift-logic-logo.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
+      "src": "icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
