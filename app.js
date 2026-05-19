@@ -15,6 +15,7 @@ const state = {
 const $ = (selector, root = document) => root.querySelector(selector);
 const exerciseList = $("#exerciseList");
 const historyDrawer = $("#historyDrawer");
+const workoutDetailDrawer = $("#workoutDetailDrawer");
 let confirmAction = null;
 let lastAutosaveAt = 0;
 
@@ -487,11 +488,56 @@ function renderHistory() {
       </header>
       ${exercises ? `<ul>${exercises}</ul>` : ""}
       ${workout.notes ? `<p>${escapeHtml(workout.notes)}</p>` : ""}
-      <div class="history-actions"><button class="text-button" type="button">Delete</button></div>
+      <div class="history-actions">
+        <button class="text-button view-workout" type="button">View</button>
+        <button class="text-button delete-workout" type="button">Delete</button>
+      </div>
     `;
-    $("button", item).addEventListener("click", () => deleteWorkout(workout.id));
+    $(".view-workout", item).addEventListener("click", () => openWorkoutDetail(workout.id));
+    $(".delete-workout", item).addEventListener("click", () => deleteWorkout(workout.id));
     list.append(item);
   });
+}
+
+function openWorkoutDetail(id) {
+  const workout = loadWorkouts().find((saved) => saved.id === id);
+  if (!workout) return;
+
+  const date = new Date(workout.date);
+  $("#workoutDetail").innerHTML = `
+    <section class="detail-meta">
+      <strong>${formatClock(workout.duration)}</strong>
+      <time>${date.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric", year: "numeric" })} at ${date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</time>
+      ${workout.status === "in-progress" ? '<span class="status-pill">Autosaved</span>' : ""}
+    </section>
+    ${workout.exercises.length ? workout.exercises.map(renderWorkoutExerciseDetail).join("") : '<p class="empty">No exercises saved.</p>'}
+    ${workout.notes ? `<section class="detail-notes"><h3>Notes</h3><p>${escapeHtml(workout.notes)}</p></section>` : ""}
+  `;
+  workoutDetailDrawer.classList.add("open");
+  workoutDetailDrawer.setAttribute("aria-hidden", "false");
+}
+
+function renderWorkoutExerciseDetail(exercise) {
+  return `
+    <section class="detail-exercise">
+      <h3>${escapeHtml(exercise.name)}</h3>
+      <div class="detail-sets">
+        ${exercise.sets.map((set, index) => `
+          <div class="detail-set">
+            <strong>${index + 1}</strong>
+            <span>Weight <strong>${escapeHtml(set.weight || 0)}</strong></span>
+            <span>Reps <strong>${escapeHtml(set.reps || 0)}</strong></span>
+            <span>RIR <strong>${escapeHtml(set.rir || 0)}</strong></span>
+          </div>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function closeWorkoutDetail() {
+  workoutDetailDrawer.classList.remove("open");
+  workoutDetailDrawer.setAttribute("aria-hidden", "true");
 }
 
 function escapeHtml(value) {
@@ -573,10 +619,14 @@ $("#restPlus").addEventListener("click", () => changeRestDuration(15));
 $("#workoutNotes").addEventListener("input", saveDraft);
 $("#historyToggle").addEventListener("click", openHistory);
 $("#closeHistory").addEventListener("click", closeHistory);
+$("#closeWorkoutDetail").addEventListener("click", closeWorkoutDetail);
 $("#cancelConfirm").addEventListener("click", closeConfirm);
 $("#confirmDelete").addEventListener("click", runConfirmAction);
 historyDrawer.addEventListener("click", (event) => {
   if (event.target === historyDrawer) closeHistory();
+});
+workoutDetailDrawer.addEventListener("click", (event) => {
+  if (event.target === workoutDetailDrawer) closeWorkoutDetail();
 });
 $("#confirmLayer").addEventListener("click", (event) => {
   if (event.target === $("#confirmLayer")) closeConfirm();

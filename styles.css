@@ -485,6 +485,69 @@ textarea {
   gap: 12px;
 }
 
+.workout-detail {
+  display: grid;
+  gap: 14px;
+}
+
+.detail-meta {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+
+.detail-meta strong {
+  display: block;
+  font-size: 1.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail-meta time,
+.detail-notes p,
+.detail-set {
+  color: var(--muted);
+}
+
+.detail-exercise {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #131717;
+  padding: 12px;
+}
+
+.detail-exercise h3,
+.detail-notes h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.detail-sets {
+  display: grid;
+  gap: 8px;
+}
+
+.detail-set {
+  display: grid;
+  grid-template-columns: 32px repeat(3, 1fr);
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid rgba(52, 61, 60, 0.72);
+  padding-top: 8px;
+}
+
+.detail-set:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.detail-set span {
+  display: block;
+}
+
+.detail-set strong {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
 .status-pill {
   align-self: start;
   border: 1px solid rgba(100, 195, 140, 0.35);
@@ -544,6 +607,11 @@ textarea {
 
   .set-row {
     grid-template-columns: 24px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.85fr) 40px;
+    gap: 6px;
+  }
+
+  .detail-set {
+    grid-template-columns: 26px repeat(3, 1fr);
     gap: 6px;
   }
 

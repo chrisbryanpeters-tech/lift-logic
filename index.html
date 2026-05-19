@@ -10,7 +10,7 @@
     <title>Lift Logic Workout Tracker</title>
     <link rel="manifest" href="manifest.webmanifest">
     <link rel="apple-touch-icon" href="icons/icon-192.svg">
-    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=11">
   </head>
   <body>
     <main class="shell">
@@ -94,6 +94,18 @@
       </div>
     </aside>
 
+    <aside class="drawer" id="workoutDetailDrawer" aria-hidden="true">
+      <div class="drawer-panel">
+        <div class="panel-title">
+          <h2>Workout Details</h2>
+          <button class="icon-button" id="closeWorkoutDetail" type="button" aria-label="Close workout details" title="Close">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <div id="workoutDetail" class="workout-detail"></div>
+      </div>
+    </aside>
+
     <template id="exerciseTemplate">
       <article class="exercise">
         <div class="exercise-head">
@@ -155,6 +167,6 @@
     </template>
 
     <datalist id="exerciseSuggestions"></datalist>
-    <script src="app.js?v=10"></script>
+    <script src="app.js?v=11"></script>
   </body>
 </html>
